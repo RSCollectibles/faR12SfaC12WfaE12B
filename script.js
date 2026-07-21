@@ -1,0 +1,1 @@
+document.querySelectorAll('article').forEach((e,i)=>{e.animate([{opacity:0,transform:'translateY(30px)'},{opacity:1,transform:'translateY(0)'}],{delay:i*120,duration:700,fill:'forwards'})});
