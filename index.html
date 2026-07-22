@@ -1,1 +1,426 @@
-<!doctype html><html lang='de'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>RS Collectibles</title><meta name='description' content='Trading Cards & Case Breaks auf Whatnot'><link rel='preconnect' href='https://fonts.googleapis.com'><link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap' rel='stylesheet'><link rel='stylesheet' href='style.css'></head><body><nav><div class='logo'>RS<span>Collectibles</span></div><a class='cta' href='https://www.whatnot.com/de-DE/user/rscollectiblesde'>Whatnot</a></nav><header><div><h1>Trading Cards<br>Live Case Breaks</h1><p>Originale Produkte. Faire Breaks. Leidenschaft für Sammelkarten.</p><a class='btn' href='https://www.whatnot.com/de-DE/user/rscollectiblesde'>Jetzt live</a></div></header><main><section><h2>Warum RS Collectibles?</h2><div class='grid'><article><h3>🎥 Live Breaks</h3><p>Live auf Whatnot.</p></article><article><h3>🏆 Topps</h3><p>Originale Produkte.</p></article><article><h3>📦 Versand</h3><p>Sicher verpackt.</p></article></div></section><section><h2>Case Breaks</h2><p>Du kaufst einen Spot, wir öffnen das Case live und alle Karten deines Teams gehören dir.</p></section><section class='banner'><h2>Bereit für deinen nächsten Hit?</h2><a class='btn' href='https://www.whatnot.com/de-DE/user/rscollectiblesde'>Spot sichern</a></section></main><footer>info@rscollectibles.de</footer><script src='script.js'></script></body></html>
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>RSCollectiblesDE | Topps & Panini Casebreaks</title>
+
+    <meta name="description"
+        content="Live Casebreaks auf Whatnot. Topps, Panini und weitere Sammelkarten. Faire Breaks, schneller Versand und transparente Livestreams.">
+
+    <meta name="theme-color" content="#8b5cff">
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+
+    <div id="progressBar"></div>
+
+    <div class="cursorGlow"></div>
+
+    <div class="background">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    <header>
+
+        <div class="logo">
+
+            <img src="logo.png" alt="RSCollectibles Logo">
+
+        </div>
+
+        <nav>
+
+            <a href="#about">Über uns</a>
+
+            <a href="#hits">Hits</a>
+
+            <a href="#faq">FAQ</a>
+
+
+        </nav>
+
+        <a class="whatnotButton"
+            href="https://www.whatnot.com/de-DE/user/rscollectiblesde"
+            target="_blank">
+
+            LIVE auf Whatnot
+
+        </a>
+
+    </header>
+
+    <section class="hero">
+
+        <div class="heroLeft">
+
+            <span class="liveBadge">
+
+                ● LIVE CASEBREAKS
+
+            </span>
+
+            <h1>
+
+                TOPPS &
+                <span>PANINI</span>
+
+                CASEBREAKS
+
+            </h1>
+
+            <p>
+
+                Premium Live Casebreaks für Topps- und Panini-Sammelkarten.
+                Faire Preise, sichere Verpackung und transparente Breaks.
+
+            </p>
+
+            <div class="heroButtons">
+
+                <a href="https://www.whatnot.com/de-DE/user/rscollectiblesde"
+                    target="_blank"
+                    class="primary">
+
+                    Zun Stream
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="heroRight">
+
+            <img src="logo.png"
+                alt="RSCollectibles">
+
+        </div>
+
+    </section>
+
+    <section class="stats">
+
+        <div class="card">
+
+            <h2 class="counter"
+                data-target="0">
+
+                0
+
+            </h2>
+
+            <p>verkaufte Spots</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2 class="counter"
+                data-target="0">
+
+                0
+
+            </h2>
+
+            <p>Live Streams</p>
+
+        </div>
+
+        <div class="card">
+
+            <h2 class="counter"
+                data-target="100">
+
+                0
+
+            </h2>
+
+            <p>% Transparenz</p>
+
+        </div>
+
+    </section>
+
+    <section id="about">
+
+        <h2>
+
+            Willkommen bei
+            <span>RSCollectiblesDE</span>
+
+        </h2>
+
+        <p>
+
+            Bei RSCollectiblesDE dreht sich alles um hochwertige
+            Topps- und Panini-Produkte.
+
+            Unsere Live-Streams auf Whatnot bieten faire
+            Casebreaks, professionelle Abwicklung und einen
+            sicheren Versand aller gezogenen Karten.
+
+        </p>
+
+    </section>
+
+    <section id="hits">
+
+        <div class="sectionTitle">
+
+            <span>Unsere Community</span>
+
+            <h2>Letzte Highlights</h2>
+
+        </div>
+
+        <div class="hitsGrid" id="hitsGrid"></div>
+
+    </section>
+
+
+
+
+
+    <section id="features">
+
+        <div class="sectionTitle">
+
+            <span>Warum RSCollectiblesDE?</span>
+
+            <h2>Darauf kannst du dich verlassen</h2>
+
+        </div>
+
+        <div class="featureGrid">
+
+            <div class="feature">
+
+                <div class="icon">⚡</div>
+
+                <h3>Live & Transparent</h3>
+
+                <p>Alle Breaks werden live durchgeführt – ohne Ausnahmen.</p>
+
+            </div>
+
+            <div class="feature">
+
+                <div class="icon">📦</div>
+
+                <h3>Sicherer Versand</h3>
+
+                <p>Alle Karten werden sorgfältig geschützt und schnell verschickt.</p>
+
+            </div>
+
+            <div class="feature">
+
+                <div class="icon">🏆</div>
+
+                <h3>Originalprodukte</h3>
+
+                <p>Topps- und Panini-Produkte von seriösen Händlern.</p>
+
+            </div>
+
+            <div class="feature">
+
+                <div class="icon">💜</div>
+
+                <h3>Community</h3>
+
+                <p>Faire Breaks und entspannte Streams mit Leidenschaft.</p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+
+
+
+    <section class="liveSection">
+
+        <div class="liveGlow"></div>
+
+        <div class="liveContent">
+
+            <span class="livePulse">
+
+                ● LIVE
+
+            </span>
+
+            <h2>
+
+                Sei beim nächsten Casebreak dabei
+
+            </h2>
+
+            <p>
+
+                Folge RSCollectiblesDE auf Whatnot und verpasse keinen Stream.
+
+            </p>
+
+            <a href="https://www.whatnot.com/de-DE/user/rscollectiblesde"
+                target="_blank"
+                class="primary">
+
+                Zu Whatnot
+
+            </a>
+
+        </div>
+
+    </section>
+
+
+
+
+
+
+    <section id="faq">
+
+        <div class="sectionTitle">
+
+            <span>FAQ</span>
+
+            <h2>Häufige Fragen</h2>
+
+        </div>
+
+        <div class="faqContainer">
+
+            <div class="faqItem">
+
+                <button>
+
+                    Wie funktionieren Casebreaks?
+
+                </button>
+
+                <div class="answer">
+
+                    Du kaufst einen Spot und erhältst alle Karten,
+                    die deinem gezogenen Team oder Slot entsprechen.
+
+                </div>
+
+            </div>
+
+            <div class="faqItem">
+
+                <button>
+
+                    Wann wird versendet?
+
+                </button>
+
+                <div class="answer">
+
+                    Normalerweise innerhalb von 1–3 Werktagen nach dem Stream.
+
+                </div>
+
+            </div>
+
+            <div class="faqItem">
+
+                <button>
+
+                    Sind alle Produkte original?
+
+                </button>
+
+                <div class="answer">
+
+                    Ja. Wir verwenden ausschließlich originale Produkte von
+                    Topps und Panini.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+
+    <footer>
+
+        <div class="footerLogo">
+
+            <img src="logo.png" alt="RSCollectiblesDE Logo">
+
+            <h2>RSCollectiblesDE</h2>
+
+        </div>
+
+        <div class="footerLinks">
+
+            <a href="#" onclick="openModal('impressum')">Impressum</a>
+
+            <a href="#" onclick="openModal('datenschutz')">Datenschutz</a>
+
+            <a href="#" onclick="openModal('versand')">Versand</a>
+
+        </div>
+
+        <p>
+
+            © 2026 RSCollectiblesDE.
+            Alle Rechte vorbehalten.
+
+        </p>
+
+    </footer>
+
+
+
+
+
+    <button id="scrollTop">
+
+        ↑
+
+    </button>
+
+<div id="legalModal" class="modal">
+
+    <div class="modalContent">
+
+        <span class="closeModal" onclick="closeModal()">&times;</span>
+
+        <h2 id="modalTitle"></h2>
+
+        <div id="modalBody"></div>
+
+    </div>
+
+</div>
+
+    <script src="hits-data.js"></script>
+    <script src="script.js"></script>
+
+</body>
+
+</html>
