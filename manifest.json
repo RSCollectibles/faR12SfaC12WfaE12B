@@ -1,0 +1,32 @@
+{
+  "name": "RSCollectiblesDE",
+  "short_name": "RSCollect",
+  "description": "Live Casebreaks auf Whatnot. Topps, Panini und weitere Sammelkarten.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#070914",
+  "theme_color": "#8d4dff",
+  "orientation": "portrait-primary",
+  "lang": "de-DE",
+  "icons": [
+    {
+      "src": "logo.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

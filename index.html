@@ -14,7 +14,69 @@
 
     <meta name="theme-color" content="#8b5cff">
 
-    <link rel="stylesheet" href="style.css">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="RSCollect">
+    <link rel="apple-touch-icon" href="logo.png">
+
+    <!-- Open Graph / Social Share (Item 4) -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="RSCollectiblesDE – Live Casebreaks auf Whatnot">
+    <meta property="og:description" content="Premium Live Casebreaks für Topps- und Panini-Sammelkarten. Faire Preise, sichere Verpackung und transparente Breaks.">
+    <meta property="og:image" content="https://rscollectibles.de/logo.png">
+    <meta property="og:url" content="https://rscollectibles.de">
+    <meta property="og:site_name" content="RSCollectiblesDE">
+    <meta property="og:locale" content="de_DE">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="RSCollectiblesDE – Live Casebreaks auf Whatnot">
+    <meta name="twitter:description" content="Premium Live Casebreaks für Topps- und Panini-Sammelkarten.">
+    <meta name="twitter:image" content="https://rscollectibles.de/logo.png">
+
+    <!-- JSON-LD Strukturierte Daten -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://rscollectibles.de/#org",
+          "name": "RSCollectiblesDE",
+          "url": "https://rscollectibles.de",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://rscollectibles.de/logo.png"
+          },
+          "description": "Live Casebreaks auf Whatnot. Topps, Panini und weitere Sammelkarten. Faire Breaks, schneller Versand und transparente Livestreams.",
+          "email": "info@rscollectibles.de",
+          "sameAs": [
+            "https://www.whatnot.com/de-DE/user/rscollectiblesde"
+          ]
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://rscollectibles.de/#website",
+          "url": "https://rscollectibles.de",
+          "name": "RSCollectiblesDE",
+          "publisher": { "@id": "https://rscollectibles.de/#org" },
+          "inLanguage": "de-DE"
+        },
+        {
+          "@type": "Store",
+          "@id": "https://rscollectibles.de/#store",
+          "name": "RSCollectiblesDE",
+          "url": "https://rscollectibles.de",
+          "description": "Premium Live Casebreaks für Topps- und Panini-Sammelkarten.",
+          "currenciesAccepted": "EUR",
+          "areaServed": "DE",
+          "hasMap": "https://www.whatnot.com/de-DE/user/rscollectiblesde"
+        }
+      ]
+    }
+    </script>
+
+    <link rel="stylesheet" href="style.css?v=20260725-1702">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -49,19 +111,17 @@
     <span></span>
     <span></span>
     <span></span>
-    <span></span>
-    <span></span>
 </div>
 
     <header>
 
         <div class="logo">
 
-            <img src="logo.png" alt="RSCollectibles Logo">
+            <img src="logo.png" alt="RSCollectibles Logo" decoding="async">
 
         </div>
 
-        <nav>
+        <nav id="mainNav" aria-label="Hauptnavigation">
 
             <a href="#about">ÜBER UNS</a>
 
@@ -72,9 +132,10 @@
 
         </nav>
 
-        <a class="whatnotButton"
+        <a id="headerWhatnotButton" class="whatnotButton"
             href="https://www.whatnot.com/de-DE/user/rscollectiblesde"
-            target="_blank">
+            target="_blank"
+            rel="noopener noreferrer">
 
             LIVE auf Whatnot
 
@@ -86,22 +147,19 @@
 
         <div class="heroLeft">
 
-            <span class="liveBadge">
+            <span id="heroLiveBadge" class="liveBadge">
 
                 ● LIVE CASEBREAKS
 
             </span>
 
-            <h1>
-
+            <h1 id="heroTitle">
                 TOPPS &
                 <span>PANINI</span>
-
                 CASEBREAKS
-
             </h1>
 
-            <p>
+            <p id="heroDescription">
 
                 Premium Live Casebreaks für Topps- und Panini-Sammelkarten.
                 Faire Preise, sichere Verpackung und transparente Breaks.
@@ -112,9 +170,11 @@
 
                 <a href="https://www.whatnot.com/de-DE/user/rscollectiblesde"
                     target="_blank"
+                    rel="noopener noreferrer"
+                    id="heroPrimaryButton"
                     class="primary">
 
-                    Zun Stream
+                    Zum Stream
 
                 </a>
 
@@ -129,9 +189,12 @@
 
         </div>
 
+        <!-- Scroll-Indicator (Item 10) -->
+        <div class="heroScroll" id="heroScroll" aria-hidden="true"></div>
+
     </section>
 
-    <section class="stats">
+    <section class="stats" id="statsSection">
 
         <div class="card">
 
@@ -176,14 +239,12 @@
 
     <section id="about">
 
-        <h2>
-
+        <h2 id="aboutTitle">
             Willkommen bei
             <span>RSCollectiblesDE</span>
-
         </h2>
 
-        <p>
+        <p id="aboutDescription">
 
             Bei RSCollectiblesDE dreht sich alles um hochwertige
             Topps- und Panini-Produkte.
@@ -200,9 +261,8 @@
 
         <div class="sectionTitle">
 
-            <span>Unsere Community</span>
-
-            <h2>Letzte Highlights</h2>
+            <span id="hitsSectionEyebrow">Unsere Community</span>
+            <h2 id="hitsSectionTitle">Letzte Highlights</h2>
 
         </div>
 
@@ -218,13 +278,12 @@
 
         <div class="sectionTitle">
 
-            <span>Warum RSCollectiblesDE?</span>
-
-            <h2>Darauf kannst du dich verlassen</h2>
+            <span id="featuresSectionEyebrow">Warum RSCollectiblesDE?</span>
+            <h2 id="featuresSectionTitle">Darauf kannst du dich verlassen</h2>
 
         </div>
 
-        <div class="featureGrid">
+        <div class="featureGrid" id="featureGrid">
 
             <div class="feature">
 
@@ -281,19 +340,19 @@
 
         <div class="liveContent">
 
-            <span class="livePulse">
+            <span id="liveSectionBadge" class="livePulse">
 
                 ● LIVE
 
             </span>
 
-            <h2>
+            <h2 id="liveSectionTitle">
 
                 Sei beim nächsten Casebreak dabei
 
             </h2>
 
-            <p>
+            <p id="liveSectionDescription">
 
                 Folge RSCollectiblesDE auf Whatnot und verpasse keinen Stream.
 
@@ -301,6 +360,8 @@
 
             <a href="https://www.whatnot.com/de-DE/user/rscollectiblesde"
                 target="_blank"
+                rel="noopener noreferrer"
+                id="liveSectionButton"
                 class="primary">
 
                 Zu Whatnot
@@ -320,13 +381,12 @@
 
         <div class="sectionTitle">
 
-            <span>FAQ</span>
-
-            <h2>Häufige Fragen</h2>
+            <span id="faqSectionEyebrow">FAQ</span>
+            <h2 id="faqSectionTitle">Häufige Fragen</h2>
 
         </div>
 
-        <div class="faqContainer">
+        <div class="faqContainer" id="faqContainer">
 
             <div class="faqItem">
 
@@ -388,28 +448,21 @@
 
         <div class="footerLogo">
 
-            <img src="logo.png" alt="RSCollectiblesDE Logo">
+            <img src="logo.png" alt="RSCollectiblesDE Logo" loading="lazy" decoding="async">
 
-            <h2>RSCollectiblesDE</h2>
-
-        </div>
-
-        <div class="footerLinks">
-
-            <a href="#" onclick="openModal('impressum')">Impressum</a>
-
-            <a href="#" onclick="openModal('datenschutz')">Datenschutz</a>
-
-            <a href="#" onclick="openModal('versand')">Versand</a>
+            <h2 id="footerBrandTitle">RSCollectiblesDE</h2>
 
         </div>
 
-        <p>
+        <div class="footerLinks" id="footerLinks">
 
-            © 2026 RSCollectiblesDE.
-            Alle Rechte vorbehalten.
+            <button type="button" class="footerLinkButton" data-modal="impressum">Impressum</button>
+            <button type="button" class="footerLinkButton" data-modal="datenschutz">Datenschutz</button>
+            <button type="button" class="footerLinkButton" data-modal="versand">Versand</button>
 
-        </p>
+        </div>
+
+        <p id="footerCopyright">© 2026 RSCollectiblesDE. Alle Rechte vorbehalten.</p>
 
     </footer>
 
@@ -417,17 +470,17 @@
 
 
 
-    <button id="scrollTop">
+    <button id="scrollTop" type="button" aria-label="Nach oben scrollen">
 
         ↑
 
     </button>
 
-<div id="legalModal" class="modal">
+<div id="legalModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle" aria-hidden="true">
 
     <div class="modalContent">
 
-        <span class="closeModal" onclick="closeModal()">&times;</span>
+        <button type="button" class="closeModal" aria-label="Modal schließen">&times;</button>
 
         <h2 id="modalTitle"></h2>
 
@@ -437,8 +490,18 @@
 
 </div>
 
-    <script src="hits-data.js"></script>
-    <script src="script.js"></script>
+
+    <!-- ========== LIGHTBOX ========== -->
+    <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Kartenvorschau" aria-hidden="true">
+        <button type="button" class="lightboxClose" aria-label="Schließen">&times;</button>
+        <div class="lightboxInner">
+            <img id="lightboxImg" src="" alt="">
+            <p id="lightboxCaption"></p>
+        </div>
+    </div>
+
+    <script src="content-config.js?v=20260725-1702"></script>
+    <script src="script.js?v=20260725-1702"></script>
 
 </body>
 
