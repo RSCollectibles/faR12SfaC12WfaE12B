@@ -412,14 +412,14 @@ document.addEventListener("DOMContentLoaded", () => {
         updateStatCounter(statIndex, roundedRating, displayValue);
     };
 
-    const fetchWhatnotProfileStats = async username => {
+    const fetchWhatnotProfileStats = async () => {
         const response = await fetch(`./whatnot-stats.json?t=${Date.now()}`, { cache: "no-store" });
         if (!response.ok) {
             throw new Error(`Whatnot stats request failed with status ${response.status}`);
         }
 
         const payload = await response.json();
-        const followers = Number.parseInt(payload.followers, 10);
+        const followers = parseFollowerValue(payload.followers);
         if (!Number.isInteger(followers)) {
             throw new Error("Follower count not found in stats file.");
         }
@@ -453,7 +453,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
             requestRunning = true;
             try {
-                const profileStats = await fetchWhatnotProfileStats(username);
+                const profileStats = await fetchWhatnotProfileStats();
                 updateFollowerCounter(profileStats.followers);
                 updateRatingCounter(profileStats.sellerRating);
             } catch (error) {
