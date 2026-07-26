@@ -158,22 +158,6 @@ window.siteContent = {
 
     // ===== Rechtstexte für Modal =====
     legalTexts: {
-        impressum: `
-<p><strong>Impressum</strong></p>
-<p>
-Name:<br>
-RBN Collectibles<br>
-Robin Smit<br>
-Johannesstraße 68<br>
-46240 Bottrop<br>
-</p>
-<p>
-E-Mail: info@rscollectibles.de
-</p>
-`,
-        datenschutz: `
-<p> </p>
-`,
         versand: `
 <p>
 Versand erfolgt innerhalb von 1 bis 3 Werktagen nach Zahlungseingang.

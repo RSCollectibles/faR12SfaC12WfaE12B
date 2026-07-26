@@ -5,7 +5,10 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     const content = window.siteContent || {};
-    const legalTexts = content.legalTexts || {};
+    const legalTexts = {
+        ...(window.legalContent || {}),
+        ...(content.legalTexts || {})
+    };
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const progress = document.getElementById("progressBar");
