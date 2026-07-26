@@ -126,5 +126,10 @@ E-Mail: info@rscollectibles.de
 
 </section>
 </p>
+`,
+    versand: `
+<p>
+Versand erfolgt innerhalb von 1 bis 3 Werktagen nach Zahlungseingang.
+</p>
 `
 };

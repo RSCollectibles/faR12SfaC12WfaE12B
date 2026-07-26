@@ -61,29 +61,8 @@ window.siteContent = {
     },
 
     // ===== Hits Karten =====
-    hits: [
-        {
-            image: "images/hits/card-1/cover.png",
-            rarity: "blue",
-            label: "43/101",
-            title: "THUMPER",
-            description: "Topps Chrome Disney 2026 THUMPER 43/101"
-        },
-        {
-            image: "images/hits/card-2/cover.png",
-            rarity: "blue",
-            label: "42/99",
-            title: "KRISTOFF",
-            description: "Topps Disney Neon 2026 KRISTOFF 42/99"
-        },
-        {
-            image: "images/hits/card-3/cover.png",
-            rarity: "blue",
-            label: "69/150",
-            title: "WINNIE THE POOH",
-            description: "Topps Chrome Disney 2026 WINNIE THE POOH 69/150"
-        }
-    ],
+    // Werden aus hits-data.json geladen (Fallback bleibt leer)
+    hits: [],
 
     // ===== Features Sektion =====
     featuresSection: {
@@ -156,12 +135,6 @@ window.siteContent = {
         copyright: "© 2026 RSCollectiblesDE. Alle Rechte vorbehalten."
     },
 
-    // ===== Rechtstexte für Modal =====
-    legalTexts: {
-        versand: `
-<p>
-Versand erfolgt innerhalb von 1 bis 3 Werktagen nach Zahlungseingang.
-</p>
-`
-    }
+    // ===== Rechtstexte werden in legal-content.js gepflegt =====
+    legalTexts: {}
 };

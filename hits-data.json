@@ -1,0 +1,37 @@
+{
+  "__help": [
+    "Bearbeite nur den Bereich hits.",
+    "image muss ein relativer Pfad sein, z. B. images/hits/card-x/cover.png.",
+    "title und description sind Pflicht, rarity/label optional."
+  ],
+  "__template": {
+    "image": "images/hits/card-x/cover.png",
+    "rarity": "blue",
+    "label": "00/00",
+    "title": "HIT NAME",
+    "description": "Kurze Beschreibung der Karte"
+  },
+  "hits": [
+    {
+      "image": "images/hits/card-1/cover.png",
+      "rarity": "blue",
+      "label": "43/101",
+      "title": "THUMPER",
+      "description": "Topps Chrome Disney 2026 THUMPER 43/101"
+    },
+    {
+      "image": "images/hits/card-2/cover.png",
+      "rarity": "blue",
+      "label": "42/99",
+      "title": "KRISTOFF",
+      "description": "Topps Disney Neon 2026 KRISTOFF 42/99"
+    },
+    {
+      "image": "images/hits/card-3/cover.png",
+      "rarity": "blue",
+      "label": "69/150",
+      "title": "WINNIE THE POOH",
+      "description": "Topps Chrome Disney 2026 WINNIE THE POOH 69/150"
+    }
+  ]
+}

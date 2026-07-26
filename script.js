@@ -5,10 +5,7 @@
 
 document.addEventListener("DOMContentLoaded", () => {
     const content = window.siteContent || {};
-    const legalTexts = {
-        ...(window.legalContent || {}),
-        ...(content.legalTexts || {})
-    };
+    const legalTexts = window.legalContent || {};
     const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
     const progress = document.getElementById("progressBar");
@@ -16,6 +13,122 @@ document.addEventListener("DOMContentLoaded", () => {
     const glow = document.querySelector(".cursorGlow");
     const header = document.querySelector("header");
     const hitsGrid = document.getElementById("hitsGrid");
+    const LEGAL_PAGE_LABELS = {
+        impressum: "Impressum",
+        datenschutz: "Datenschutz",
+        versand: "Versand"
+    };
+    const escapeHtml = value => String(value == null ? "" : value)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#39;");
+    const sanitizeLegalPageKey = value => {
+        const candidate = String(value == null ? "" : value).trim().toLowerCase();
+        if (!Object.prototype.hasOwnProperty.call(LEGAL_PAGE_LABELS, candidate)) {
+            return null;
+        }
+
+        if (typeof legalTexts[candidate] !== "string" || !legalTexts[candidate]) {
+            return null;
+        }
+
+        return candidate;
+    };
+    const sanitizeNavHref = href => {
+        const candidate = String(href == null ? "" : href).trim();
+        return /^#[a-zA-Z0-9_-]+$/.test(candidate) ? candidate : "#";
+    };
+    const sanitizeRelativeImagePath = path => {
+        const candidate = String(path == null ? "" : path).trim();
+        if (
+            !candidate ||
+            /^(?:[a-z]+:|\/\/)/i.test(candidate) ||
+            candidate.includes("..") ||
+            !/^[a-zA-Z0-9/_\-.]+$/.test(candidate)
+        ) {
+            return "logo.png";
+        }
+
+        return candidate;
+    };
+    const sanitizeRarityClass = value => {
+        const candidate = String(value == null ? "" : value).trim().toLowerCase();
+        return /^[a-z0-9_-]{1,32}$/.test(candidate) ? candidate : "blue";
+    };
+    const sanitizeExternalUrl = (rawUrl, fallback) => {
+        try {
+            const parsed = new URL(String(rawUrl), window.location.origin);
+            if (parsed.protocol !== "https:") {
+                return fallback;
+            }
+            return parsed.href;
+        } catch (error) {
+            return fallback;
+        }
+    };
+    const normalizeHitEntry = (entry, index) => {
+        if (!entry || typeof entry !== "object" || Array.isArray(entry)) {
+            console.error("Invalid hit entry at index:", index);
+            return null;
+        }
+
+        const image = sanitizeRelativeImagePath(entry.image);
+        const title = String(entry.title == null ? "" : entry.title).trim();
+        if (!title) {
+            console.error("Hit entry has no title at index:", index);
+            return null;
+        }
+
+        return {
+            image,
+            rarity: sanitizeRarityClass(entry.rarity),
+            label: String(entry.label == null ? "" : entry.label).trim(),
+            title,
+            description: String((entry.description == null ? entry.text : entry.description) == null
+                ? ""
+                : (entry.description == null ? entry.text : entry.description)).trim()
+        };
+    };
+    const normalizeHitsPayload = payload => {
+        const source = Array.isArray(payload)
+            ? payload
+            : (payload && Array.isArray(payload.hits) ? payload.hits : null);
+        if (!source) {
+            throw new Error("hits-data.json must contain an array or { hits: [...] }.");
+        }
+
+        const normalized = source
+            .map((entry, index) => normalizeHitEntry(entry, index))
+            .filter(Boolean);
+
+        if (normalized.length !== source.length) {
+            throw new Error("hits-data.json contains invalid hit entries.");
+        }
+
+        return normalized;
+    };
+    let resolvedHits = Array.isArray(content.hits)
+        ? content.hits.map((entry, index) => normalizeHitEntry(entry, index)).filter(Boolean)
+        : [];
+    const fetchHitsData = async () => {
+        const response = await fetch(`./hits-data.json?t=${Date.now()}`, { cache: "no-store" });
+        if (!response.ok) {
+            throw new Error(`Hits data request failed with status ${response.status}`);
+        }
+
+        const payload = await response.json();
+        return normalizeHitsPayload(payload);
+    };
+    const setupHitsSync = async () => {
+        try {
+            resolvedHits = await fetchHitsData();
+            renderHits(resolvedHits);
+        } catch (error) {
+            console.error("Could not refresh hits data:", error);
+        }
+    };
     const forceUnlockPageScroll = () => {
         document.documentElement.classList.remove("scrollLocked");
         document.body.classList.remove("scrollLocked");
@@ -50,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         nav.innerHTML = content.navigation
-            .map(item => `<a href="${item.href}">${item.label}</a>`)
+            .map(item => `<a href="${sanitizeNavHref(item && item.href)}">${escapeHtml(item && item.label)}</a>`)
             .join("");
     };
 
@@ -63,9 +176,11 @@ document.addEventListener("DOMContentLoaded", () => {
         const liveSectionButton = document.getElementById("liveSectionButton");
 
         if (typeof content.whatnotUrl === "string") {
+            const safeWhatnotUrl = sanitizeExternalUrl(content.whatnotUrl, "https://www.whatnot.com/");
             [headerWhatnotButton, heroPrimaryButton, liveSectionButton].forEach(link => {
                 if (link) {
-                    link.setAttribute("href", content.whatnotUrl);
+                    link.setAttribute("href", safeWhatnotUrl);
+                    link.setAttribute("rel", "noopener noreferrer");
                 }
             });
         }
@@ -82,7 +197,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const top = content.hero.titleTop || "";
             const accent = content.hero.titleAccent || "";
             const bottom = content.hero.titleBottom || "";
-            heroTitle.innerHTML = `${top} <span>${accent}</span> ${bottom}`.trim();
+            heroTitle.innerHTML = `${escapeHtml(top)} <span>${escapeHtml(accent)}</span> ${escapeHtml(bottom)}`.trim();
         }
 
         if (heroDescription && content.hero && typeof content.hero.description === "string") {
@@ -105,10 +220,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 <h2
                     class="counter"
                     data-target="${Number(item.target) || 0}"
-                    data-suffix="${typeof item.suffix === "string" ? item.suffix : ""}"
+                    data-suffix="${escapeHtml(typeof item.suffix === "string" ? item.suffix : "")}"
                     ${typeof item.label === "string" && /(follower|bewertung|rating)/i.test(item.label) ? 'data-skip-intro-animation="true"' : ""}
                 >0</h2>
-                <p>${item.label || ""}</p>
+                <p>${escapeHtml(item.label || "")}</p>
             </div>
         `).join("");
     };
@@ -120,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (aboutTitle && content.about) {
             const prefix = content.about.titlePrefix || "";
             const accent = content.about.titleAccent || "";
-            aboutTitle.innerHTML = `${prefix} <span>${accent}</span>`.trim();
+            aboutTitle.innerHTML = `${escapeHtml(prefix)} <span>${escapeHtml(accent)}</span>`.trim();
         }
 
         if (aboutDescription && content.about && typeof content.about.description === "string") {
@@ -136,25 +251,30 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     const renderHits = hits => {
-        if (!Array.isArray(hits) || !hits.length || !hitsGrid) {
+        if (!hitsGrid) {
+            return;
+        }
+
+        if (!Array.isArray(hits) || !hits.length) {
+            hitsGrid.innerHTML = "";
             return;
         }
 
         hitsGrid.innerHTML = hits.map(hit => `
             <div class="hitCardWrap">
-                <article class="hitCard" data-rarity="${hit.rarity}">
+                <article class="hitCard" data-rarity="${sanitizeRarityClass(hit && hit.rarity)}">
                     <div class="shine"></div>
                     <div class="hitImage"
-                        data-lightbox-src="${hit.image}"
-                        data-lightbox-caption="${hit.title}"
+                        data-lightbox-src="${sanitizeRelativeImagePath(hit && hit.image)}"
+                        data-lightbox-caption="${escapeHtml(hit && hit.title)}"
                         role="button"
                         tabindex="0"
-                        aria-label="Karte vergrößern: ${hit.title}">
-                        <img src="${hit.image}" alt="${hit.title}" loading="lazy" decoding="async">
+                        aria-label="Karte vergrößern: ${escapeHtml(hit && hit.title)}">
+                        <img src="${sanitizeRelativeImagePath(hit && hit.image)}" alt="${escapeHtml(hit && hit.title)}" loading="lazy" decoding="async">
                     </div>
-                    <div class="rarity ${hit.rarity}">${hit.label}</div>
-                    <h3>${hit.title}</h3>
-                    <div class="hitDescription">${hit.description || hit.text || ""}</div>
+                    <div class="rarity ${sanitizeRarityClass(hit && hit.rarity)}">${escapeHtml(hit && hit.label)}</div>
+                    <h3>${escapeHtml(hit && hit.title)}</h3>
+                    <div class="hitDescription">${escapeHtml((hit && hit.description) || (hit && hit.text) || "")}</div>
                 </article>
             </div>
         `).join("");
@@ -168,9 +288,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
         featureGrid.innerHTML = content.features.map(feature => `
             <div class="feature">
-                <div class="icon">${feature.icon || ""}</div>
-                <h3>${feature.title || ""}</h3>
-                <p>${feature.description || ""}</p>
+                <div class="icon">${escapeHtml(feature && feature.icon)}</div>
+                <h3>${escapeHtml(feature && feature.title)}</h3>
+                <p>${escapeHtml(feature && feature.description)}</p>
             </div>
         `).join("");
     };
@@ -194,8 +314,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         faqContainer.innerHTML = content.faq.map(item => `
             <div class="faqItem">
-                <button type="button">${item.question || ""}</button>
-                <div class="answer">${item.answer || ""}</div>
+                <button type="button">${escapeHtml(item && item.question)}</button>
+                <div class="answer">${escapeHtml(item && item.answer)}</div>
             </div>
         `).join("");
     };
@@ -210,7 +330,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         footerLinks.innerHTML = content.footer.legalLinks.map(link => `
-            <button type="button" class="footerLinkButton" data-modal="${link.key}">${link.label}</button>
+            <button type="button" class="footerLinkButton" data-modal="${sanitizeLegalPageKey(link && link.key) || ""}">${escapeHtml(link && link.label)}</button>
         `).join("");
     };
 
@@ -223,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         applySimpleText("hitsSectionEyebrow", content.hitsSection && content.hitsSection.eyebrow);
         applySimpleText("hitsSectionTitle", content.hitsSection && content.hitsSection.title);
-        renderHits(content.hits);
+        renderHits(resolvedHits);
 
         applySimpleText("featuresSectionEyebrow", content.featuresSection && content.featuresSection.eyebrow);
         applySimpleText("featuresSectionTitle", content.featuresSection && content.featuresSection.title);
@@ -471,6 +591,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     applyContent();
+    setupHitsSync();
     setupLiveFollowerSync();
     forceUnlockPageScroll();
     window.setTimeout(forceUnlockPageScroll, 250);
@@ -695,7 +816,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalTitle = document.getElementById("modalTitle");
     const modalBody = document.getElementById("modalBody");
     const openModal = page => {
-        const contentText = legalTexts[page];
+        const normalizedPage = sanitizeLegalPageKey(page);
+        const contentText = normalizedPage ? legalTexts[normalizedPage] : null;
 
         if (!modal || !modalTitle || !modalBody || !contentText) {
             console.error("Modal could not be opened for page:", page);
@@ -704,7 +826,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         modal.classList.add("show");
         modal.setAttribute("aria-hidden", "false");
-        modalTitle.textContent = page.charAt(0).toUpperCase() + page.slice(1);
+        modalTitle.textContent = LEGAL_PAGE_LABELS[normalizedPage];
         modalBody.innerHTML = contentText;
         forceUnlockPageScroll();
     };
